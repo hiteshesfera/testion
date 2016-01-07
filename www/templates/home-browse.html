@@ -1,0 +1,102 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+
+<ion-view  view-title="">
+
+<ion-header-bar  ng-swipe-right="onSwipeLeft($event)"  class="bar-subheader">
+<div class="row" style="text-align:center;">
+  <div class="col" style="color:blue;text-align:left;margin-left:-28px" translate="digin_title">Digin</div>
+  <div class="col" style="color:blue;border-bottom:2px solid black;" translate="browse_title">Browse</div>
+  <div class="col" style="text-align:right;color:blue;margin-right:-28px" ></div>
+</div>
+ 
+
+</ion-header-bar>
+
+ <ion-nav-buttons side="left">
+ <div class="bar bar-header bar-light">
+     <img style="width:50px;height:auto;" src="img/image1.jpg"> 
+     <div class="bar bar-header bar-light">
+     
+  </div>
+  </div>
+ </ion-nav-buttons>
+   
+
+  <ion-content scroll=false class="padding">
+
+
+
+      <ion-content>
+
+  <div class="row" style="padding-top:0px;">
+
+  
+   
+    <div class="col" style="height:52px;text-align: center;background: red;color: #fff;">
+
+       <div class="dropzonezero" ng-bind-html="mindfulldesc"></div>
+    </div>
+ </div>
+
+<!-- {{handle.currentLevel}}
+{{handle.leveldata}} -->
+<!-- {{handle.leveldataz3}} -->
+
+
+ <!--    <div class="dd" id="nestable3">
+            <ol class="dd-list">
+                <li class="dd-item dd3-item" data-id="13">
+                    <div class="dd-handle dd3-handle">Drag</div><div class="dd3-content">Item 13</div>
+                </li>
+                <li class="dd-item dd3-item" data-id="14">
+                    <div class="dd-handle dd3-handle">Drag</div><div class="dd3-content">Item 14</div>
+                </li>
+                <li class="dd-item dd3-item" data-id="15">
+                    <div class="dd-handle dd3-handle">Drag</div><div class="dd3-content">Item 15</div>
+                    <ol class="dd-list">
+                        <li class="dd-item dd3-item" data-id="16">
+                            <div class="dd-handle dd3-handle">Drag</div><div class="dd3-content">Item 16</div>
+                        </li>
+                        <li class="dd-item dd3-item" data-id="17">
+                            <div class="dd-handle dd3-handle">Drag</div><div class="dd3-content">Item 17</div>
+                        </li>
+                        <li class="dd-item dd3-item" data-id="18">
+                            <div class="dd-handle dd3-handle">Drag</div><div class="dd3-content">Item 18</div>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+ -->
+
+
+
+<ion-scroll zooming="true" direction="xy" style="width: 500px; height: 500px">
+      <div class="dd" id="nestable3">
+           <collection collection='diginData.data'></collection>
+      </div>
+ </ion-scroll>
+
+      </ion-content>
+  </ion-content>
+
+ 
+  <ion-footer-bar align-title="left" style="border-top:2px solid red;" class="">
+ 
+  <div style="font-size:2.4em;" class="ion-ios-paper-outline" >
+   
+  </div> <span style="font-size:1.6em;vertical-align:middle;margin:5px;">{{totaldigs}}</span>
+ <button ng-click='open()' class="button button-small button-positive activated" translate='browse_expand_all'>Expand All</button>
+ <button ng-click='close()'  class="button button-small button-positive activated" translate='browse_collapse_all'>Collapse All</button>
+  
+ 
+
+</ion-footer-bar>
+
+
+</ion-view>

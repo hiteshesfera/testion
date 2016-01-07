@@ -1,0 +1,307 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+
+<ion-view cache-view="false" view-title="">
+
+<ion-header-bar ng-swipe-right="gohome($event)" ng-swipe-left="onSwipeLeft($event)"  on-release="onSwapRelease()" class="bar-subheader">
+<div  class="row" style="text-align:center;">
+  <div class="col" style="color:blue;text-align:left;margin-left:-28px" translate="home_title" >brainwork</div>
+  <div   class="col" style="color:blue;border-bottom:2px solid black;" translate="digin_title">Digin</div>
+  <div  class="col" style="text-align:right;color:blue;margin-right:-28px" translate="browse_title">Browse</div>
+</div>
+ 
+
+</ion-header-bar>
+
+ <ion-nav-buttons side="left">
+ <div class="bar bar-header bar-light">
+     <img style="width:50px;height:auto;" src="img/dog.jpg"> 
+     <div class="bar bar-header bar-light">
+     
+  </div>
+  </div>
+ </ion-nav-buttons>
+   
+
+  <ion-content scroll=false class="padding">
+
+
+
+      <ion-content>
+<!-- {{handle.currentLevel}}
+{{handle.leveldata}} -->
+<!-- {{handle.leveldataz3}} -->
+ <div class="row dropzonezero" style="padding-top:0px;">
+    <div class="col dropzonezero" style="height:52px;text-align: center;background: red;color: #fff;">
+      <div class="dropzonezero" ng-bind-html="mindfulldesc"></div>
+    </div>
+ </div>
+
+      <div class="dig-con">
+      <!-- First container start here -->
+       <div  data-drop="true" data-section="z1"  jqyoui-droppable="{onDrop : 'onDroppMain(event , ui)'  }" class="square z1 squre-left">
+       <div class="view_heading" translate='digin_view_first_label'>view 1</div>
+          <div class="content hori hh-first">
+	      	  <ion-scroll delegate-handle="mainScrollfir"  on-drag-left="onDragLeft($event)" on-drag-right="onDragRight($event)" on-scroll="scrolling('z1')"  zooming="false" direction="x" class="itemmm" data-section="z1"  >
+	                <div class="drag_list" >
+                       <ng-include src="'templates/other/first.html'"> </ng-include>
+	               </div> 
+	         </ion-scroll>
+          </div>
+          <div class="click-to-slide ion-arrow-up-b" translate='digin_click_to_slide_text'>Click to<span>Slide in</span></div>
+          <div class="click-to-edit ion-arrow-right-b" translate='digin_click_to_edit_text'>Click<span>to edit</span></div>
+      </div>
+
+ <!-- First container end here -->
+
+ <!-- 2nd container start here -->
+ <div data-drop="true" data-section="z2"  jqyoui-droppable="{onDrop : 'onDroppMain(event , ui)'  }" class="square z2">
+    <div class="content">
+         <ion-scroll delegate-handle="mainScroll"  on-scroll="scrolling('z2')" zooming="false" direction="y" data-section="z2" >
+
+           <div class="drag_list" >
+    <ng-include src="'templates/other/second.html'"> </ng-include>
+           </div> 
+         </ion-scroll>
+          </div>
+</div>
+ <!-- 2nd container end here -->
+   
+   <div class="instruction" translate='digin_long_hold_to_drag_text'>Long press to drag and drop</div>
+
+
+
+       <!-- 3rd container start here --> 
+  <div data-drop="true" data-section="z3"  jqyoui-droppable="{onDrop : 'onDroppMain(event , ui)'  }" class="square z3 squre-left">
+   <div class="view_heading" translate='digin_view_second_label'>view 2</div>
+    <div class="content hori hh-third">
+            <ion-scroll delegate-handle="mainScrollthird" on-drag-left="onDragLeft($event)" on-drag-right="onDragRight($event)" on-scroll="scrolling('z3')" zooming="false" class="itemmm" direction="x" s>
+             
+            <div class="drag_list" >
+                <ng-include src="'templates/other/third.html'"> </ng-include>
+            </div> 
+   
+         </ion-scroll>
+          </div>
+          <div class="click-to-slide ion-arrow-up-b" translate='digin_click_to_slide_text'>Click to<span>Slide in</span>
+          </div>
+          <div class="click-to-edit ion-arrow-right-b">Click<span>to edit</span></div>
+</div>
+
+   <!-- 3rd container end here --> 
+
+   <!-- 4rd container start here --> 
+   <div data-drop="true" data-section="z4"  jqyoui-droppable="{onDrop : 'onDroppMain(event , ui)'  }" class="square z4">
+          <div class="content">
+         <ion-scroll delegate-handle="mainScroll" on-drag-left="onDragf($event)" on-drag-left="onDragf($event)" on-scroll="scrolling('z4')" zooming="false" direction="y" >
+            
+            <div class="drag_list" >
+                       <ng-include src="'templates/other/four.html'"> </ng-include>
+             </div> 
+   
+         </ion-scroll>
+          </div>
+</div>
+
+   <!-- 4rd container end here --> 
+
+
+      </div>
+
+     
+        
+
+      </ion-content>
+  </ion-content>
+ 
+    <ion-footer-bar align-title="left" style="border-top:2px solid red;" class="">
+ 
+
+
+
+
+</ion-footer-bar>
+
+
+</ion-view>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+   // console.log(($(".hori .listitem")))
+  });
+</script>
+
+<script type="text/ng-template" id="browse.html">
+
+  <div class="modal">
+     <!-- Modal header bar -->
+    <ion-header-bar on-drag-right="onSwipeLeftClos()"  class="bar-subheader">
+<div class="row" style="text-align:center;">
+  <div class="col" style="color:blue;text-align:left;margin-left:-28px">Digin</div>
+  <div class="col" style="color:blue;border-bottom:2px solid black;">Browse</div>
+  <div class="col" style="text-align:right;color:blue;margin-right:-28px" ></div>
+</div>
+ 
+
+</ion-header-bar>
+
+
+   
+
+  <ion-content scroll=false class="padding">
+
+
+
+      <ion-content>
+
+  <div class="row" style="padding-top:0px;">
+
+  
+   
+    <div class="col" style="height:52px;text-align: center;background: red;color: #fff;">
+       <div class="dropzonezero" ng-bind-html="mindfulldesc"></div>
+    </div>
+ </div>
+
+<!-- {{handle.currentLevel}}
+{{handle.leveldata}} -->
+<!-- {{handle.leveldataz3}} -->
+       <div class="dd" id="nestable">
+           <collection collection='diginData.data'></collection>
+        </div>
+        
+
+      </ion-content>
+  </ion-content>
+
+ 
+  <ion-footer-bar align-title="left" style="border-top:2px solid red;" class="">
+ 
+  <div style="font-size:2.4em;" class="ion-ios-paper-outline" >
+   
+  </div> <span style="font-size:1.6em;vertical-align:middle;margin:5px;">{{totaldigs}}</span>
+
+ 
+
+</ion-footer-bar>
+
+  </div>
+
+</script>
+
+
+
+
+
+
+
+<script type="text/ng-template" id="addNewItem.html">
+
+ 
+ <div class="modal">
+     <!-- Modal header bar -->
+     <ion-header-bar class="bar-secondary">
+       <h1 class="title" translate="home_add_new_item_form_title">Add New Item</h1>
+
+       <button class="button button-clear button-position" ng-click="closeNewItem()" translate="cancel_button_label">Cancel</button>
+     </ion-header-bar>
+
+     <!-- Modal content area -->
+     <ion-content>
+         <form ng-submit="createNewItem(element)">
+             <div class="list">
+
+
+              <label ng-show="showerror" >
+                  <div id="errornotice" >{{showerrortext}}</div>  
+              </label>
+
+
+              <label class="item item-input item-floating-label">
+                
+                <input type="text" placeholder="{{'item_name_placeholder' | translate}}" ng-model="element.name" value="" >
+                <span class="input-label" translate="item_name_text">Item Name</span>
+              </label>
+              <label class="item item-input item-floating-label">
+                
+                <textarea ng-model="element.description" placeholder="{{'item_description_placeholder' | translate}}"></textarea>
+                <span class="input-label" translate="item_description_text">Item Description</span>
+              </label>
+            </div>
+              <label class="">
+                  
+                  <button type="submit" class="button button-block button-positive" translate="create_task_button">Create Task</button>
+              </label>
+            </div>
+                   
+         </form>
+    </div> 
+     </ion-content>
+  </div>
+
+
+</script>
+
+
+
+
+
+
+
+<script type="text/ng-template" id="editItem.html">
+
+
+
+   <div class="modal">
+     <!-- Modal header bar -->
+     <ion-header-bar class="bar-secondary">
+       <h1 class="title" translate="edit_item_text">Edit Item</h1>
+
+       <button class="button button-clear button-position" ng-click="closeEditItem()" translate="cancel_button_label">Cancel</button>
+     </ion-header-bar>
+
+     <!-- Modal content area -->
+     <ion-content>
+         <div class="description-single-item">
+          </div>
+         <form ng-submit="editItem(task)">
+
+            <div class="list">
+
+        
+
+                <label class="item item-input item-floating-label">
+                
+                   <input type="text" value="{{currentEditItem.name}}" placeholder="{{'item_name_placeholder' | translate}}" ng-model="task.name" >
+                     <span class="input-label" translate="home_form_label_name">Name</span>
+                </label>
+                <label class="item item-input item-floating-label">
+
+     <input type="text" value="{{currentEditItem.description}}"placeholder="{{'item_description_placeholder' | translate}}" ng-model="task.description" >
+          
+                   <span class="input-label" translate="home_form_description_label">Description</span>
+                </label>
+
+    
+             <div class="button-bar" style="margin-top:2px;">
+              <a ng-click="DeleteItem(currentEditItem)" class="button-assertive button" translate="delete_item_button_text">Delete item
+              </a>
+            <pre> </pre>
+            <button type="submit" class="button button-positive" translate="apply_changes_button_text">Apply changes</button>
+            </div>                                        
+              
+              </div>
+
+         </form>
+     </ion-content>
+  </div>
+
+
+
+
+
+</script>

@@ -1,0 +1,161 @@
+<ion-view view-title="">
+
+<!-- <ion-header-bar>
+<div class="bar bar-header">
+  <button class="button button-icon icon ion-navicon"></button>
+  <div class="h1 title">Header Buttons</div>
+  <button class="button button-clear button-positive">Edit</button>
+</div>
+</ion-header-bar> -->
+<ion-header-bar  class="bar-subheader">
+<div class="row" style="text-align:center;">
+   <div class="col"></div>
+  <div class="col" style="color:blue;border-bottom:2px solid black;" translate="home_title">brainwork</div>
+  <div class="col" style="text-align:right;color:blue;" translate="digin_title" >dig in</div>
+</div>
+ 
+
+</ion-header-bar>
+ <ion-nav-buttons side="left">
+ <div class="bar bar-header bar-light">
+     <img style="width:50px;height:auto;" src="img/one.png"> 
+     <div class="bar bar-header bar-light">
+  </div>
+  </div>
+ </ion-nav-buttons>
+   
+
+  <ion-content>
+
+
+  <!--   <div class="bar bar-header">
+  <button class="button button-icon icon ion-navicon"></button>
+  <div class="h1 title">Header Buttons</div>
+  <button class="button button-clear button-positive">Edit</button>
+</div>
+ -->
+
+   
+
+       <ion-list>
+      <ion-item on-long-press="showMindingEditForm(item)" class="item-remove-animate home item-avatar item-icon-right" ng-click="ShowDig(item)" ng-repeat="item in mins" type="item-text-wrap" href="">
+        <div ng-click="addToFav($event , item)" style="float: left;margin-right: .8em;font-size: 2em;" class="{{item.fav == 'true' ? 'ion-ios-star hh-red' : 'ion-ios-star-outline'}}"></div>
+        <h2 style="margin-top:.5em;"><b>{{item.name}}</b> - {{item.description}} </h2>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(item)" translate="delete_button_label">
+          Delete
+        </ion-option-button>
+         <ion-option-button class="button-positive" ng-click="showMindingEditForm(item)" translate="edit_button_label">
+           Edit
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+
+ 
+    
+
+  
+  </ion-content>
+    <ion-footer-bar align-title="left" style="border-top:2px solid red;" class="">
+    <div style="font-size:2.4em;" class="ion-ios-paper-outline" >
+    </div> <span style="font-size:1.6em;vertical-align:middle;margin:5px;">{{mins.length}}</span>
+
+  <h1 class="title"></h1>
+  <div class="buttons" ng-click="AddNewMine()">
+      <div style="font-size:2.4em;color:red;" class="ion-android-add-circle" ng-click="">
+  </div>
+  </div>
+
+</ion-footer-bar>
+</ion-view>
+
+<script type="text/ng-template" id="edit-task.html">
+
+    <div class="modal">
+     <!-- Modal header bar -->
+     <ion-header-bar class="bar-secondary">
+       <h1 class="title" translate="edit_button_label">Edit</h1>
+
+       <button class="button button-clear button-position" ng-click="closeNewTask()" translate="cancel_button_label">Cancel</button>
+     </ion-header-bar>
+
+     <!-- Modal content area -->
+     <ion-content>
+         <div class="description-single-item">
+          </div>
+         <form ng-submit="modifyTask(task)">
+            <div class="list">
+            <label ng-show="showerror" >
+               <div id="errornotice" >{{showerrortext}}</div>  
+            </label>
+                <label class="item item-input item-floating-label">
+                   <input type="text" value="{{current_item.name}}" placeholder="{{'home_form_name_placeholder' | translate}}" ng-model="task.name" >
+                     <span class="input-label" translate="home_form_label_name">Name</span>
+                </label>
+                <label class="item item-input item-floating-label">
+
+     <input type="text" value="{{current_item.description}}" placeholder="{{ 'home_form_description_placeholder' | translate}}" ng-model="task.description" >
+          
+                   <span class="input-label" translate="home_form_description_label">Description</span>
+                </label>
+
+            <label> <br>
+            <div><span translate="created_text_label">Created</span>: {{ current_item.created_at}}<div> 
+            <div><span translate="modified_text_label">Modified</span>:  {{ current_item.updated_at}}<div>
+            </label> <br>
+
+
+             <div class="button-bar" style="margin-top:2px;">
+              <a ng-click="removeC(current_item)" class="button-assertive button" translate="delete_item_button_text">Delete item
+              </a>
+            <pre> </pre>
+            <button type="submit" class="button button-positive" translate="apply_changes_button_text">Apply changes</button>
+            </div>                                        
+              
+              </div>
+
+         </form>
+     </ion-content>
+  </div>
+</script>
+
+
+
+<script type="text/ng-template" id="add-task.html">
+
+ <div class="modal">
+      <!-- Modal header bar -->
+     <ion-header-bar class="bar-secondary">
+       <h1 class="left title" translate="home_add_new_item_form_title">Add New Item</h1>
+     
+       <button class="button button-clear button-position" ng-click="closemine()" translate="cancel_button_label">Cancel</button>
+     </ion-header-bar>
+     <!-- Modal content area -->
+     <ion-content>
+         <form name="addnewmineform" ng-submit="createNewElement(element , addnewmineform)">
+              <div class="list">
+              <label ng-show="showerror" >
+               <div id="errornotice" >{{showerrortext}}</div>
+               </label>
+                <label class="item item-input item-floating-label">
+                
+                   <input type="text" value="{{element.name}}" placeholder="{{'home_form_name_placeholder' | translate}}" ng-model="element.name" >
+                     <span class="input-label" translate="home_form_label_name">Name</span>
+                </label>
+                <label class="item item-input item-floating-label">
+                  
+                   <textarea placeholder="{{'home_form_description_placeholder' | translate}}" value=""  ng-model="element.description" >{{element.description}}</textarea>
+                   <span class="input-label" translate="home_form_description_label">Description</span>
+                </label>
+
+                <button type="submit" class="button button-block button-positive" translate="home_new_brainwork_branch_button_text">Create new brainwork branch</button>
+                
+              </div>
+              
+         </form>
+    
+     </ion-content>
+  </div>
+
+</script>
