@@ -27,5 +27,11 @@
     "item_description_placeholder" : "New Item Descriptionn" ,
     "item_description_text" : "Item Descriptionn" , 
     "create_task_button" : "Create Taskk" ,
-    "edit_item_text" : "Edit Itemm"
+    "edit_item_text" : "Edit Itemm" ,
+    "error" : {
+        "same_element_drop_error" : "Other lang Cant drop on same element" ,
+        "z1_to_z2_error" : "other lang Z1 Element Not allowed to go Z2" ,
+        "z3_to_z4_error" : " other lang Element can't go from z3 zone to z4 zone" ,
+        "element_to_child_error" : "Element can't go inside its child"
+    }
   }

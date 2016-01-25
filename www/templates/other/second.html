@@ -1,5 +1,5 @@
           <ion-list>
-              <ion-item data-zone="z2" ng-click='showEditScreen(item)' on-release="onRelease($event , item)"  on-drag="draggingg($event , item )" on-hold="longPressed($event , item )" data-id="{{item.id}}" data-parent="{{item.parent}}" ng-repeat="item in selected_item_z1"   class="listitemcss listitem btn btn-primary"     >
+              <ion-item data-zone="z2" ng-click='showEditScreen(item)' on-release="onRelease($event , item , 'z2')"  on-drag="draggingg($event , item )" on-hold="longPressed($event , item )" data-id="{{item.id}}" data-parent="{{item.parent}}" ng-repeat="item in selected_item_z1"   class="listitemcss listitem btn btn-primary"     >
              
              {{item.name}}
               </ion-item>

@@ -86,15 +86,12 @@ $scope.showerrortext = "";
   }
 
 //   else if (element.description == "" || element.description == undefined) {
-  
 //    $scope.showerror = true;
 //    $scope.showerrortext = "Description is required";
-
-//   $timeout(function(){
-// $scope.showerror = false;
-// $scope.showerrortext = "";
+//    $timeout(function(){
+//    $scope.showerror = false;
+//    $scope.showerrortext = "";
 //    }, 2000);
-  
 //    return false;
 //   } 
 

@@ -14,10 +14,23 @@ var myapp = angular.module('starter', ['ionic' , 'ngCordova' , 'starter.controll
 .run(function($ionicPlatform , $cordovaSQLite) {
   $ionicPlatform.ready(function() {
      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+
+      /**
+        To Run The app in browser uncomment this code
+      */ 
+
      // db = window.openDatabase("dragapp_test5.db", '1', 'my tab', 1024 * 1024 * 100); // browser
-     // db =  window.openDB({ name: "dragapp_test3.db" }); // browser
+  
+  /**
+      TO run the app in device uncomment this code and then build
+  */ 
      db =  $cordovaSQLite.openDB({ name: "dragapp.db" }); //device
      // $cordovaSQLite.execute(db, 'DROP TABLE IF EXISTS mines');
+
+
+
+
+
      var d =  $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS mines (id INTEGER PRIMARY KEY AUTOINCREMENT, name string , description text , fav boolean DEFAULT false , created_at DATETIME DEFAULT CURRENT_TIMESTAMP , updated_at DATETIME DEFAULT CURRENT_TIMESTAMP)');
       $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS digins (id INTEGER PRIMARY KEY AUTOINCREMENT, name string , description text , parent INTEGER , like INTEGER , mine_id INTEGER)');
      //alert("now running db open")

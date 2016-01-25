@@ -71,6 +71,9 @@ var updateDiginElement = function(mainid , item , currenitem) {
                      console.log("=>>>>>>");
                      console.log(tempobj)
                       return tempobj;
+              // deferred.resolve(tempobj);
+              // var promise = deferred.promise;
+              // return promise;
                  })
 
           
@@ -89,12 +92,20 @@ var updateDiginElement = function(mainid , item , currenitem) {
       return $cordovaSQLite.execute(db, queryy, [ mainid ]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
+
                   var tempobj = {};
                   tempobj.id =  res.rows.item(i).id;
                   tempobj.name =  res.rows.item(i).name;
                   tempobj.description =  res.rows.item(i).description;
                   tempobj.parent =  res.rows.item(i).parent;
+
+
+                     // console.log("now here");
+                     // console.log(tempobj);
+
                    mainobj.push(tempobj);
+               
+               
                }
                  return mainobj;
             } else {
@@ -122,20 +133,22 @@ var updateDiginElement = function(mainid , item , currenitem) {
                   tempobj.id = res.rows.item(i).id;
                   tempobj.name = res.rows.item(i).name;
                    
-                   // console.log("<<<---------This is description field ------------->>>");
-                   // console.log(res.rows.item(i).description);
+                   console.log("<<<---------This is description field ------------->>>");
+                   console.log(res.rows.item(i).description);
                    if (res.rows.item(i).description == "undefined") {
                     tempobj.description = "";
                    } else {
                      tempobj.description = res.rows.item(i).description;
                    }
 
+                 
                   tempobj.fav = res.rows.item(i).fav;
                   tempobj.created_at = res.rows.item(i).created_at;
                    tempobj.updated_at = res.rows.item(i).updated_at;
                   $scope.mins.push(tempobj);
-                    // console.log(tempobj);
-                    // console.log("SELECTED -> " + res.rows.item(i).fav + " " + res.rows.item(i).description);
+                    console.log(tempobj);
+                    console.log("SELECTED -> " + res.rows.item(i).fav + " " + res.rows.item(i).description);
+                    
                 }
 
             } else {
@@ -170,6 +183,8 @@ var updateDiginElement = function(mainid , item , currenitem) {
                    } else {
                      tempobj.description = res.rows.item(i).description;
                    }
+
+
                   
                   tempobj.parent = res.rows.item(i).parent;
                   mainobj.push(tempobj);
@@ -222,7 +237,10 @@ var updateDiginElement = function(mainid , item , currenitem) {
           // alert(err)
            console.log(err);
         });
+        // console.log("this is all data");
+        // console.log(mainobj);
 
+        
 
 
     }
@@ -238,6 +256,9 @@ var updateDiginElement = function(mainid , item , currenitem) {
 
 var checkchildren = function(data , id) {
   var dataa = [];
+  // console.log("sfsfsfsfsfsfsf");
+  // console.log(data);
+
   angular.forEach(data ,function(value , key){
       if (value.parent == id) {
         // console.log("yes data is present");
@@ -289,14 +310,16 @@ var checkchildren = function(data , id) {
      var receiveddata = getDiginDataById($scope , mainid , 0);
      $scope.z1parent = 0;
      $scope.z3parent = 0;
-  
+     // console.log("setting parent");
+     // console.log($scope.z1parent);
   receiveddata.then(function(result){
      $scope.handle.z1level = result;
      $scope.handle.z3level = result;
-    
+     console.log("i am here");
+     console.log(result);
      if (result.length > 0) {
          $scope.handle.z1childparent = result[0].id;
-         $scope.z4parent = result[0].id
+         $scope.z4parent             = result[0].id;
            var receivedChilddata = getDiginDataById($scope , mainid , result[0].id);
            receivedChilddata.then(function(recdata){
                 $scope.selected_item_z1 = recdata;
@@ -309,9 +332,7 @@ var checkchildren = function(data , id) {
     saveElement : function($scope , element) {
 
  var date = new Date();
- var lastWeek = $filter('date')(date, 'MM/dd yyyy - HH:mm');
-   console.log("date before creating enw element");
-   console.log(lastWeek);
+ var lastWeek = $filter('date')(date, 'MM/dd yyyy - HH:mm');   
      $cordovaSQLite.execute(db, 'INSERT INTO mines (name , description , created_at , updated_at) VALUES (? , ? , ? , ?)', [element.name , element.description , lastWeek ,lastWeek])
             .then( function(result) {
               console.log("Data Inserted");
@@ -319,8 +340,6 @@ var checkchildren = function(data , id) {
             }, function(error) {
                 alert("Error on saving: " + error.message);
             });
-
-
     } ,
 
  UpdateMinding : function($scope , item , current_minding_id){
@@ -337,8 +356,8 @@ var checkchildren = function(data , id) {
 item.updated_at = lastWeek;
 
  var length = sizee(item);
-
-
+ console.log("This is item length");
+ console.log(length);
 
 // Get the size of an object
 var arguarray = [];
@@ -396,11 +415,9 @@ console.log(sqlupdatedata);
 
      $cordovaSQLite.execute(db, 'INSERT INTO digins (mine_id , name , description , parent ) VALUES (? , ? , ? , ?)', [mainid , name , description , parentid])
             .then( function(result) {
-             // console.log("Data Inserted");
-            
 
         var queryy = 'SELECT id , name , description , parent FROM digins WHERE mine_id = ? AND parent = ?'          
-        var query = "SELECT id , name, description FROM mines";
+        
         $cordovaSQLite.execute(db, queryy, [ mainid , parentid ]).then(function(res) {
           var mainobj = [];
             if(res.rows.length > 0) {
@@ -410,17 +427,16 @@ console.log(sqlupdatedata);
                   tempobj.name = res.rows.item(i).name;
                   tempobj.description = res.rows.item(i).description;
                   tempobj.parent = res.rows.item(i).parent;
-                  // mainobj.push(tempobj);
                   mainobj.push(tempobj);
-                  //console.log(tempobj);
-                  // console.log("SELECTED -> " + res.rows.item(i).name + " " + res.rows.item(i).description);
+                  
                 }
+
+              
 
          if (parentid == $scope.z1parent) {
              $scope.handle.z1level = mainobj;
              $scope.handle.z1childparent = tempobj.id;
-             $scope.selected_item_z1 = [];
-
+             // $scope.selected_item_z1 = [];
          }
 
 
@@ -431,7 +447,7 @@ console.log(sqlupdatedata);
          if (parentid == $scope.z3parent) {
              $scope.handle.z3level = mainobj; 
               $scope.z4parent = tempobj.id;
-             $scope.selected_item_z3 = [];
+             // $scope.selected_item_z3 = [];
          }
 
          if (parentid == $scope.z4parent) {
@@ -714,7 +730,12 @@ console.log(sqlupdatedata);
    , 
 
     deleteDiginItem : function($scope , mainid , element){
-    
+      console.log("This is main id");
+      console.log(mainid);
+      console.log("this is element");
+      console.log(element);
+
+
         $cordovaSQLite.execute(db, 'DELETE FROM digins WHERE id = ?;', [element.id ])
             .then( function(result) {
                var children = localgetChildren(mainid , element.parent);
@@ -747,36 +768,76 @@ console.log(sqlupdatedata);
             });
 
 
+
+/*
+
+           var minedata = deleteDiginElement( mainid , element.id  , element.parent );
+
+            minedata.then(function(result){
+
+              console.log(result);
+
+         if (element.parent == $scope.z1parent) {
+             $scope.handle.z1level = result;
+         }
+         if (element.parent == $scope.handle.z1childparent) {
+            $scope.selected_item_z1 = result;
+         }
+         if (element.parent == $scope.z3parent) {
+             $scope.handle.z3level = result; 
+         }
+         if (element.parent == $scope.z4parent) {
+        $scope.selected_item_z3 = result;
+         }
+
+
+           });*/
+
     } , 
     editDiginItem : function($scope , mainid , item , current_minding_id) {
         
 
    // old edit functionality start here
-     var sqlupdatedata = "";
-     var i = 1;
-    // item.updated_at = lastWeek;
-     var length = sizee(item);
-    // Get the size of an object
-    var arguarray = [];
+ var sqlupdatedata = "";
 
-       angular.forEach(item , function(value , key){
-        arguarray.push(value);
-        sqlupdatedata += key + " = " + " ? ";
-        if (length > 1 && i < length) {
-          sqlupdatedata +=  " , ";
-        }
-        i++;
-        });
+ // var date = new Date();
+ // var lastWeek = $filter('date')(date, 'MM/dd yyyy - HH:mm');
+    // console.log("This is current date");
+    // console.log(date);
+
+ var i = 1;
+
+// item.updated_at = lastWeek;
+
+ var length = sizee(item);
+
+// Get the size of an object
+var arguarray = [];
+
+   angular.forEach(item , function(value , key){
+    arguarray.push(value);
+    sqlupdatedata += key + " = " + " ? ";
+    if (length > 1 && i < length) {
+      sqlupdatedata +=  " , ";
+    }
+    i++;
+    });
   
 
+
    arguarray.push(current_minding_id.id);
+   
     var updatesql = "UPDATE digins SET "+sqlupdatedata+" WHERE id= ?";
+
       $cordovaSQLite.execute(db, updatesql  , arguarray )
             .then( function(result) {
 
                var children = localgetChildren(mainid , current_minding_id.parent);
        // $scope.z4parent = parent.id;
        children.then(function(result){
+
+        console.log(result);
+        
       if (current_minding_id.parent == $scope.z1parent) {
              $scope.handle.z1level = result;
          }
@@ -789,12 +850,43 @@ console.log(sqlupdatedata);
          if (current_minding_id.parent ==    $scope.z4parent) {
         $scope.selected_item_z3 = result;
          }
+
+
        });
+
               // getAllMines($scope);
             }, function(error) {
                 alert("Error on saving: " + error.message);
             });
+
             // old edit functionaliy end here
+
+
+
+           // var minedata = updateDiginElement( mainid , editobj  , currentitem );
+          
+        //    minedata.then(function(result){
+        
+          
+        //  if (currentitem.parent == $scope.z1parent) {
+        //      $scope.handle.z1level = result;
+        //  }
+        //  if (currentitem.parent == $scope.handle.z1childparent) {
+        //     $scope.selected_item_z1 = result;
+        //  }
+        //  if (currentitem.parent == $scope.z3parent) {
+        //      $scope.handle.z3level = result; 
+        //  }
+        //  if (currentitem.parent == $scope.z4parent) {
+        // $scope.selected_item_z3 = result;
+        //  }
+
+              
+        //    });
+
+
+        
+
     } ,
 
     moveElementToNewPos : function($scope , mainid , item , movedid){
@@ -828,69 +920,119 @@ console.log(sqlupdatedata);
 
     moveElementToNewPosBrowse : function($scope  , item , movedid){
     var sql = 'UPDATE digins SET parent = ? WHERE id = ?';
+
     console.log(movedid);
     if (movedid === undefined) {
       movedid = 0;
-    } 
+    } else {
+      console.log("No Value is not undefined and is value is " + movedid);
+    }
+    console.log("This is moved id");
         $cordovaSQLite.execute(db, sql, [movedid , item ]).then(function(res) {
+        //  var children = localgetChildren(mainid , movedid);
+       // $scope.z4parent = parent.id;
+      console.log("i am here....");
+      console.log(res);
+          // alert("done");
         }, function (err) {
+          // alert(err)
           console.log(err);
         });
    } ,
 
-   moveElementToParentLevel: function($scope, mainid, item) {
+   moveElementToParentLevel : function($scope , mainid , item) {
+
     var sql = 'UPDATE digins SET parent = ? WHERE id = ?';
-    $cordovaSQLite.execute(db, sql, [0, item.id]).then(function(res) {
-        localgetChildren(mainid, 0)
-            .then(function(result) {
-                if ($scope.z1parent == 0) {
-                    $scope.handle.z1level = result;
-                }
-                if ($scope.handle.z1childparent == 0) {
-                    $scope.selected_item_z1 = result;
-                }
-                if ($scope.z3parent == 0) {
-                    $scope.handle.z3level = result;
-                }
-                if ($scope.z4parent == 0) {
-                    $scope.selected_item_z3 = result;
-                }
-            });
-    }, function(err) {
-        console.log(err);
-    });
+        $cordovaSQLite.execute(db, sql, [0 , item.id ]).then(function(res) {
+          var children = localgetChildren(mainid , 0);
+       // $scope.z4parent = parent.id;
+       children.then(function(result){
+        
+      if ($scope.z1parent == 0) {
+             $scope.handle.z1level = result;
+         }
+         if ($scope.handle.z1childparent == 0) {
+            $scope.selected_item_z1 = result;
+         }
+         if ($scope.z3parent == 0) {
+             $scope.handle.z3level = result; 
+         }
 
-} , 
+         if ($scope.z4parent == 0) {
+        $scope.selected_item_z3 = result;
+         }
 
-   getBrowseData: function($scope, mainid) {
-    var query = "SELECT id , name, description FROM mines WHERE id = ?";
-    $cordovaSQLite.execute(db, query, [mainid]).then(function(res) {
-        var array = [];
-        if (res.rows.length > 0) {
-            var tempobj = {};
-            tempobj.id = res.rows.item(0).id;
-            tempobj.name = res.rows.item(0).name;
-            tempobj.description = res.rows.item(0).description;
-              getMyLoopData(mainid, 0)
-            .then(function(res) {
-                $scope.totaldigs = res.length;
-                angular.forEach(res, function(value, key) {
-                    if (value.parent == 0) {
-                        array.push(value);
-                        var ad = checkchildren(res, value.id);
-                        value.children = ad;
-                    };
-                })
-                tempobj.data = array;
-                $scope.diginData = tempobj;
-            });
-        } else {
-            console.log("No results found");
-        }
-    }, function(err) {
-        console.log(err);
-    });
-} ,  
+       });
+          // alert("done");
+        }, function (err) {
+          // alert(err)
+          console.log(err);
+        });
+
+   } , 
+
+    getBrowseData : function($scope , mainid){
+      // console.log("I am here now");
+       // $scope.diginData = [];
+        var query = "SELECT id , name, description FROM mines WHERE id = ?";
+        $cordovaSQLite.execute(db, query , [ mainid ]).then(function(res) {
+          var array = [];
+           if(res.rows.length > 0) {
+               
+                  var tempobj = {};
+                  tempobj.id           = res.rows.item(0).id;
+                  tempobj.name         = res.rows.item(0).name;
+                  tempobj.description  = res.rows.item(0).description;
+    
+                  var data = getMyLoopData(mainid , 0);
+                  data.then(function(res){
+
+                    $scope.totaldigs = res.length;
+                    
+                     // console.log(res);
+
+                     angular.forEach( res , function(value , key){
+                    // console.log("i am outsite if");
+                    // console.log(value.parent);
+                     if (value.parent == 0) {
+                      // console.log("i am inside if");
+                      array.push(value);
+
+                     var ad = checkchildren( res , value.id );
+                     // console.log("valid data ");
+                     // console.log(ad);
+
+                     value.children = ad;
+
+
+                     };
+
+                    
+
+                     
+                     }) 
+                     tempobj.data = array;
+                     // console.log(array);
+
+                  // console.log("Main object");
+                  // console.log(tempobj);
+                   // console.log("+++++++++++++++++");
+                   // console.log(tempobj.data);
+                   // console.log("+++++++++++++++++");
+                   $scope.diginData = tempobj;
+                 })
+
+                
+            } else {
+               console.log("No results found");
+            }
+        }, function (err) {
+          // alert(err)
+          console.log(err);
+        });
+
+
+    }  ,  
 
     getDiginDataResolve : function(mainid) {
 
@@ -949,10 +1091,21 @@ console.log(sqlupdatedata);
                     $scope.mindingdescription  = res.rows.item(0).description;
                    }
 
+                  // alert($scope.mindingdescription);
+
                   if ($scope.mindingdescription == "null" || $scope.mindingdescription == null) {
                     $scope.mindingdescription = "";
-                  } 
+                  } else {
+                    // alert("no");
+                  }
                   $scope.mindfulldesc = "<b class='dropzonezero'>" + $scope.mindingname + "</b> - " + $scope.mindingdescription;
+
+                  // console.log("current length of name is");
+                  // console.log($scope.mindingname.length);
+                  // console.log("Current length of description .. ");
+                  // console.log($scope.mindingdescription.length);
+                  // console.log("current length of full description");
+                  // console.log($scope.mindfulldesc.length);
 
                   if ($scope.mindfulldesc.length >= 85) {
                  $scope.mindfulldesc =  $scope.mindfulldesc.substr(0, 85).concat("...");
@@ -992,6 +1145,8 @@ setTrackVariable : function( zone , value) {
 checkTrackVariable : function(zone , value) {
   if (zone == "z1" || zone == "z2" ) {
     var a = track_view_first.indexOf(value);
+    console.log("------------");
+    console.log(a);
     if (a == "-1") {
      return false;
     } else {
@@ -999,6 +1154,8 @@ checkTrackVariable : function(zone , value) {
     }
   } else if(zone == "z3" || zone == "z4" ) {
     var a = track_view_second.indexOf(value);
+    console.log("------------");
+    console.log(a);
     if (a == "-1") {
      return false;
     } else {

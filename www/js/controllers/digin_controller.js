@@ -1,11 +1,11 @@
 
-myapp.controller('DigCtrl', function(maydata , $scope ,  $location , $timeout , $ionicSlideBoxDelegate , $ionicScrollDelegate ,  $ionicModal , $stateParams , MinsData) {
+myapp.controller('DigCtrl', function(maydata , $scope , $translate ,  $location , $timeout , $ionicSlideBoxDelegate , $ionicScrollDelegate ,  $ionicModal , $stateParams , MinsData) {
  $scope.$on('$ionicView.beforeEnter', function () {
           
 
-// console.log(maydata);
-// console.log("**************Digin CONTROLLER CALLED NOW*************");
-// console.log("yoyo");
+console.log(maydata);
+console.log("**************Digin CONTROLLER CALLED NOW*************");
+console.log("yoyo");
 // $stateParams.minId is our main digin id will remoain same through out our controller 
 /**
 * var data
@@ -27,7 +27,7 @@ myapp.controller('DigCtrl', function(maydata , $scope ,  $location , $timeout , 
 // var myvalue = MinsData.getCommonVariable();
 //  console.log("==>" + myvalue);
 
-
+    $scope.center_text = "Long press to drag and drop";
     $scope.levelgtrtn0 = false;
     $scope.levelz3gtrtn0 = false;
     $scope.showz1up =false;
@@ -41,6 +41,13 @@ myapp.controller('DigCtrl', function(maydata , $scope ,  $location , $timeout , 
       leveldata : [] ,
       currentLevelz3 : 0 ,
       leveldataz3 : []
+    }
+
+    $scope.setCenterText = function(error_message){
+      $scope.center_text = error_message;
+          $timeout(function(){
+        $scope.center_text = "Long press to drag and drop";
+           }, 2000);
     }
 
 
@@ -71,12 +78,12 @@ myapp.controller('DigCtrl', function(maydata , $scope ,  $location , $timeout , 
         });
 
 
-   $ionicModal.fromTemplateUrl('browse.html', function(modal) {
-   $scope.broweModal = modal;
-    }, {
-    scope: $scope ,
-    animation: 'slide-in-up'
-    });
+       $ionicModal.fromTemplateUrl('browse.html', function(modal) {
+       $scope.broweModal = modal;
+        }, {
+        scope: $scope ,
+        animation: 'slide-in-up'
+        });
 
 $scope.addHoverClass = function(event){
   $(event.target).addClass("hovered");
@@ -257,8 +264,11 @@ if (item != undefined) {
  }
 
  $scope.handleother = $ionicScrollDelegate.$getByHandle('mainScroll');
- $scope.handlefir = $ionicScrollDelegate.$getByHandle('mainScrollfir');
+ $scope.handlefir   = $ionicScrollDelegate.$getByHandle('mainScrollfir');
  $scope.handlethird = $ionicScrollDelegate.$getByHandle('mainScrollthird');
+
+$scope.handlefir.scrollTo(0, 0, true);
+$scope.handlethird.scrollTo(0, 0, true);
 
 
     $scope.dragginright =false;
@@ -277,9 +287,40 @@ $scope.onDragRight = function(e){
     // console.log("Dragging To Right");
   };
 
+//  var closest = function(arr, closestTo){
+
+//     var closest = Math.max.apply(null, arr); //Get the highest number in arr in case it match nothing.
+
+//     for(var i = 0; i < arr.length; i++){ //Loop the array
+//         if(arr[i] >= closestTo && arr[i] < closest) closest = arr[i]; //Check if it's higher than your number, but lower than your closest value
+//     }
+//     return closest; // return the value
+// }
+// var x = closest(yourArr, 2200);
+
+
+function closestt(array,num){
+    var i=0;
+    var minDiff=1000;
+    var ans = [];
+    for(i in array){
+         var m=Math.abs(num-array[i].left);
+         if(m<minDiff){ 
+                minDiff=m; 
+                ans = [ array[i].left , array[i].element ];
+                
+            }
+      }
+    return ans;
+}
+
+
 var getClosestValues = function(a, x , direction) {
+
     var lo, hi , loele , hiele;
     for (var i = a.length; i--;) {
+       console.log("this is for loop");
+       console.log(a[i].left);
         if (a[i].left <= x && (lo === undefined || lo < a[i].left)) {
           lo = a[i].left;
           loele = a[i].element;
@@ -309,6 +350,7 @@ var getClosestValues = function(a, x , direction) {
 // Timer variable to detect scroll ending time.
 var scrollTimer;
 function scrollEnded(zone , element) {
+  console.log("******SCOLL ENDED***********");
   var item = {}
   item.id = element;
   if (zone == 'z1') {
@@ -342,7 +384,7 @@ $scope.lastupdatedvaluez3  = "";
 */ 
 function scrollingaction(loopElement , handle , zone ){
   var dff  = handle.getScrollPosition();
-  handle.getScrollView().options.animationDuration = 30;
+  handle.getScrollView().options.animationDuration = 22;
    var myarray = [];
    // console.log("loop element starts");
    // console.log(loopElement);
@@ -367,9 +409,17 @@ if ($scope.dragginleft) {
 }
 
 
-var df = getClosestValues(myarray , dff.left , direction  );
-
-
+// var df = getClosestValues(myarray , dff.left , direction  );
+var df = closestt(myarray , dff.left);
+// var df = getClosestValues(myarray , 3 , direction  );
+      console.log("This is Error");
+      console.log(myarray);
+      console.log("***Function return value****");
+      console.log(df);
+      console.log("********* dff Left value**********");
+      console.log(dff.left);
+      console.log("***********DIRECTION*********");
+      console.log(direction);
 
       if (df[0] != undefined) {  
           if (scrollstop != df[0]) {
@@ -399,17 +449,6 @@ var df = getClosestValues(myarray , dff.left , direction  );
   } 
 
 
-  scrollTimer = $timeout(function() {
-  
-    if ($scope.funcGlobal != undefined) {
-        if ($scope.lastupdatedvaluez1 !=  $scope.funcGlobal ) {
-       $scope.lastupdatedvaluez1 = $scope.funcGlobal;
-       scrollEnded(zone ,  $scope.funcGlobal );
-     }
-    };
-    }, 200);
-
-
 
 
 
@@ -431,25 +470,39 @@ var df = getClosestValues(myarray , dff.left , direction  );
     $scope.handlefir.freezeScroll(true);
     $scope.handlethird.freezeScroll(true);
   } 
+// console.log("i am scrolling...");
+// console.log(zone);
 
-if (zone == 'z1') {
+
+
+  scrollTimer = $timeout(function() {
+    
+    console.log("reached");
+    if (zone == 'z1') {
  // console.log("current zone is z1");
   var dff  = $scope.handlefir.getScrollPosition();
-  var allelements = $('.hh-first ion-item.hhitem');
+  var allelements = $('.hh-first ion-item.hhitem:visible');
   scrollingaction(allelements , $scope.handlefir , zone);
-
 //$scope.handlefir.getScrollView().options.animationDuration = 30;
-
-
 } else if(zone == 'z3') {
- // console.log("current zone is z3");
   var myarray = [];
-    var dff  = $scope.handlethird.getScrollPosition();
-  var allelements = $('.hh-third ion-item.hhitem');
-
- scrollingaction(allelements ,$scope.handlethird , zone);
-
+  var dff  = $scope.handlethird.getScrollPosition();
+  var allelements = $('.hh-third ion-item.hhitem:visible');
+  scrollingaction(allelements ,$scope.handlethird , zone);
 }
+
+
+    if ($scope.funcGlobal != undefined) {
+        if ($scope.lastupdatedvaluez1 !=  $scope.funcGlobal ) {
+       $scope.lastupdatedvaluez1 = $scope.funcGlobal;
+       scrollEnded( zone ,  $scope.funcGlobal );
+        }
+      };
+    }, 200);
+
+
+
+
 
   
 
@@ -458,6 +511,9 @@ if (zone == 'z1') {
   if ($scope.longPressedd) {
      $scope.handleother.freezeScroll(true);
   } 
+
+
+
   
  }
 
@@ -465,19 +521,25 @@ $scope.longPressedd = false;
 $scope.allowrelease = false;
 
 
+$scope.getTranslationErrorText = function(errorKey) {
+     $translate(['error.same_element_drop_error' , 'error.z1_to_z2_error' , 'error.z3_to_z4_error' , 'error.element_to_child_error' ]).then(function (translations) {
+    $scope.headline = translations.HEADLINE;
+    $scope.paragraph = translations.PARAGRAPH;
+     $scope.setCenterText(translations['error.' + errorKey]);
+  });
+}
 
-
-$scope.onRelease = function(event , item) {
+$scope.onRelease = function(event , item , zone) {
 
   if ($scope.allowrelease) {
-  console.log("&&&***I Am Here .... ***&&&");
-  console.log("yoyoyoyoyo");
+  // console.log("&&&***I Am Here .... ***&&&");
+  // console.log("yoyoyoyoyo");
   $scope.longPressedd = false;
   $scope.handleother.freezeScroll(true);
 
-    $("#dynamicfloatingele").css({
-        "display" : "none" 
-    });
+  $("#dynamicfloatingele").css({
+      "display" : "none" 
+  });
 
  // console.log($scope.currentele);
 
@@ -486,13 +548,14 @@ $scope.onRelease = function(event , item) {
 
  if ($($scope.currentEle).data("id") != undefined && $($scope.currentEle).hasClass('listitem') && $scope.droppedonoutercontainer ) {
 
-   console.log($($scope.currentEle).data("id"));
-
-   console.log("This is zone of dropped element");
-   console.log($($scope.currentEle).data("zone"));
-
-   console.log(item);
-   console.log("*************FIRST STAGE****************");
+   // console.log($($scope.currentEle).data("id"));
+   // console.log("This is zone of dropped element");
+   // console.log($($scope.currentEle).data("zone"));
+   // console.log("element comming from ");
+   // console.log(zone);
+   // console.log($($scope.currentEle).data("id"));
+   // console.log(item);
+   // console.log("*************FIRST STAGE****************");
    MinsData.checkTrackVariable($($scope.currentEle).data("zone") , item.id);
 
    /**
@@ -501,13 +564,42 @@ $scope.onRelease = function(event , item) {
    *
    **/ 
 
-   if (item.id == $($scope.currentEle).data("id")) {
-   // alert("Cant drop on same element");
-   } else if(MinsData.checkTrackVariable($($scope.currentEle).data("zone") , item.id)){
-    alert("Element can't go inside its child");
-   } else {
-     $(event.target).css("display" , "none");
+ /*
 
+Cant drop on same element
+
+ */
+          
+// alert($scope.handle.z1childparent);
+// alert($scope.z4parent);
+   if (item.id == $($scope.currentEle).data("id")) {
+    // alert("Cant drop on same element");
+    // $scope.setCenterText("Cant drop on same element");
+  $scope.getTranslationErrorText("same_element_drop_error");
+   } else if(zone == "z1" && $($scope.currentEle).data("zone") == "z2") {
+    // alert("Z1 Element Not allowed to go Z2");
+    // $scope.setCenterText("Z1 Element Not allowed to go Z2");
+    $scope.getTranslationErrorText("z1_to_z2_error");
+   } else if(zone == "z3" && $($scope.currentEle).data("zone") == "z4") {
+    // alert("element can' go from z3 zone to z4 zone");
+    // $scope.setCenterText("Element can' go from z3 zone to z4 zone");
+    $scope.getTranslationErrorText("z3_to_z4_error");
+   } else if($scope.handle.z1childparent == $scope.z4parent ){
+    // alert("Element can't go inside its childd");
+    // $scope.setCenterText("Element can't go inside its child");
+    
+    $scope.getTranslationErrorText("element_to_child_error");
+   } else if(MinsData.checkTrackVariable($($scope.currentEle).data("zone") , item.id)){
+    // alert("Element can't go inside its child");
+    // $scope.setCenterText("Element can't go inside its child");
+     $scope.getTranslationErrorText("element_to_child_error");
+   } else {
+     // $(event.target).css("display" , "none");
+     // console.log("Event Target ----****");
+     // console.log(event.target);
+     // console.log("this is data id");
+     // console.log($(event.target).data('id'));
+     $('ion-item[data-id='+ $(event.target).data('id') +']').css("display" , "none");
      MinsData.moveElementToNewPos( $scope ,  $stateParams.minId , item , $($scope.currentEle).data("id") );
    }
 } 
@@ -534,9 +626,6 @@ $(".listitem").css({
 }
 
 $scope.droppedonoutercontainer = false;
-
-
-
 /**
 * current
 * 1.) Longhold on element will first find 
@@ -564,7 +653,7 @@ position of pointer
    event.preventDefault();
    var width = event.target;
     // console.log(event);
- var ele =   document.elementFromPoint( $scope.scodyleft + event.gesture.deltaX  , $scope.scodytop + event.gesture.deltaY );
+ var ele = document.elementFromPoint( $scope.scodyleft + event.gesture.deltaX  , $scope.scodytop + event.gesture.deltaY );
      // console.log("here");
      // console.log(ele);
     if ($(ele).hasClass('listitem')) {
@@ -638,6 +727,9 @@ $(".listitem").css({
  $scope.longPressed = function( event , item){
  $scope.longPressedd = true;
 
+   $scope.handlefir.freezeScroll(true);
+   $scope.handlethird.freezeScroll(true);
+
 console.log("Element longpressed set inner text");
 console.log($(event.target).html());
 
@@ -683,7 +775,9 @@ $scope.sdf = function() {
     $(".z1 , .z2").css({
       "background" : "#ddd none repeat scroll 0 0"
     });
+
    }
+
  }
 
   $scope.onDragg = function(event){
@@ -703,6 +797,7 @@ $scope.sdf = function() {
       $(".z1 , .z2").css({
         "background" : "red"
          });
+
    }
 
 
@@ -713,6 +808,7 @@ $scope.sdf = function() {
   'text-align' : 'center'
  });
 
+   
 };
 
 $scope.activeAllowedDropZone = "";
@@ -725,6 +821,8 @@ $scope.onDroppMain = function(event , ui) {
    $scope.activeAllowedDropZone = $(event.target).data("section");
    // alert("Element dropped from "+ ui.draggable.data("zone") +" zone to " + event.target.attributes["data-zone"].value + " zone" );
 }
+
+
 
 $scope.closeBrowse = function() {
   $scope.broweModal.hide();
@@ -848,7 +946,14 @@ $scope.onSwipeLeft = function(event) {
     MinsData.localGoBackFunc( $scope , $stateParams.minId ,  zone);
   }
 
+
+// 
+
+ 
     });
+
+
+
 
 })
 

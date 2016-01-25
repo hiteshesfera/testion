@@ -64,17 +64,14 @@
          <ion-scroll delegate-handle="mainScroll"  on-scroll="scrolling('z2')" zooming="false" direction="y" data-section="z2" >
 
            <div class="drag_list" >
-    <ng-include src="'templates/other/second.html'"> </ng-include>
+              <ng-include src="'templates/other/second.html'"> </ng-include>
            </div> 
          </ion-scroll>
           </div>
 </div>
  <!-- 2nd container end here -->
    
-   <div class="instruction" translate='digin_long_hold_to_drag_text'>Long press to drag and drop</div>
-
-
-
+   <div class="instruction" >{{center_text}}</div>
        <!-- 3rd container start here --> 
   <div data-drop="true" data-section="z3"  jqyoui-droppable="{onDrop : 'onDroppMain(event , ui)'  }" class="square z3 squre-left">
    <div class="view_heading" translate='digin_view_second_label'>view 2</div>

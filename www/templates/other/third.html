@@ -1,6 +1,6 @@
  <ion-list>
               <ion-item class="listitem listitemcss hhitem" id="z3goback" ng-click='goback("z3")' ng-show="showz3up" >Up</ion-item>
-              <ion-item on-release="onRelease($event , item)"  on-drag="draggingg($event , item )" on-hold="longPressed($event , item )"  ng-click="onDoubleTap($event , 'z3' , item)" data-zone="z3" data-id="{{item.id}}" data-parent="{{item.parent}}"  ng-repeat="item in handle.z3level"  class="listitemcss listitem btn btn-primary hhitem"    >
+              <ion-item on-release="onRelease($event , item , 'z3')"  on-drag="draggingg($event , item )" on-hold="longPressed($event , item  )"  ng-click="onDoubleTap($event , 'z3' , item)" data-zone="z3" data-id="{{item.id}}" data-parent="{{item.parent}}"  ng-repeat="item in handle.z3level"  class="listitemcss listitem btn btn-primary hhitem"    >
          
             {{item.name}}
               </ion-item>
